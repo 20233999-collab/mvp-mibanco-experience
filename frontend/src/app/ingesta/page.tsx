@@ -18,11 +18,14 @@ export default function IngestaPage() {
   // Inbox State
   const [inboxState, setInboxState] = useState<"idle" | "searching" | "results">("idle");
   const [unreadOnly, setUnreadOnly] = useState(true);
+  const [showFilters, setShowFilters] = useState(false);
   const [campaignCode, setCampaignCode] = useState("");
+  
+  // Pieces State
   const [foundPieces, setFoundPieces] = useState([
-    { id: 1, name: "Borrador_Campaña_Madres.pdf", type: "pdf", sender: "marketing@mibanco.com.pe" },
-    { id: 2, name: "Guion_CallCenter_v2.docx", type: "docx", sender: "agencia.centro@mibanco.com.pe" },
-    { id: 3, name: "Banner_RRSS_Propuesta.png", type: "image", sender: "diseno.externo@agencia.com" },
+    { id: 1, name: "Borrador_Campaña_Madres.pdf", type: "pdf", sender: "marketing@mibanco.com.pe", selected: false, group: null as string | null },
+    { id: 2, name: "Guion_CallCenter_v2.docx", type: "docx", sender: "agencia.centro@mibanco.com.pe", selected: false, group: null as string | null },
+    { id: 3, name: "Banner_RRSS_Propuesta.png", type: "image", sender: "diseno.externo@agencia.com", selected: false, group: null as string | null },
   ]);
 
   useEffect(() => {
@@ -57,6 +60,30 @@ export default function IngestaPage() {
     router.push("/procesando");
   };
 
+  const togglePieceSelection = (id: number) => {
+    setFoundPieces(prev => prev.map(p => p.id === id ? { ...p, selected: !p.selected } : p));
+  };
+
+  const handleGroupSelected = () => {
+    const selectedCount = foundPieces.filter(p => p.selected).length;
+    if (selectedCount < 2) return; // Need at least 2 to group
+    
+    const groupId = `Grupo-${Math.floor(Math.random() * 1000)}`;
+    setFoundPieces(prev => prev.map(p => p.selected ? { ...p, group: groupId, selected: false } : p));
+  };
+
+  const handleAddPiece = () => {
+    const newId = Date.now();
+    setFoundPieces(prev => [...prev, { 
+      id: newId, 
+      name: `Nuevo_Documento_${Math.floor(Math.random() * 100)}.pdf`, 
+      type: "pdf", 
+      sender: "cargado_manualmente", 
+      selected: false, 
+      group: null 
+    }]);
+  };
+
   return (
     <>
       {/* TopNavBar Shell */}
@@ -67,7 +94,6 @@ export default function IngestaPage() {
         <div className="hidden md:flex items-center gap-6">
           <Link className="text-on-surface-variant hover:text-primary-container transition-colors py-1 cursor-pointer" href="/panel">Panel</Link>
           <span className="text-primary font-bold border-b-2 border-primary transition-colors py-1 cursor-pointer">Archivos</span>
-          <Link className="text-on-surface-variant hover:text-primary-container transition-colors py-1 cursor-pointer" href="/tracking">Rastreador</Link>
         </div>
         <div className="flex items-center gap-4 text-primary">
           <span className="material-symbols-outlined cursor-pointer hover:opacity-70 transition-all">account_circle</span>
@@ -148,13 +174,42 @@ export default function IngestaPage() {
                           </div>
                         </div>
 
-                        <label className="flex items-center gap-2 cursor-pointer group w-fit">
-                          <div className={`w-5 h-5 rounded border flex items-center justify-center transition-colors ${unreadOnly ? 'bg-primary border-primary' : 'border-outline group-hover:border-primary'}`}>
-                            {unreadOnly && <span className="material-symbols-outlined text-on-primary text-[14px]">check</span>}
+                        <div className="flex items-center justify-between mt-2">
+                          <label className="flex items-center gap-2 cursor-pointer group w-fit">
+                            <div className={`w-5 h-5 rounded border flex items-center justify-center transition-colors ${unreadOnly ? 'bg-primary border-primary' : 'border-outline group-hover:border-primary'}`}>
+                              {unreadOnly && <span className="material-symbols-outlined text-on-primary text-[14px]">check</span>}
+                            </div>
+                            <input type="checkbox" className="hidden" checked={unreadOnly} onChange={() => setUnreadOnly(!unreadOnly)} />
+                            <span className="text-sm text-on-surface-variant font-bold group-hover:text-primary transition-colors">Solo no leídos</span>
+                          </label>
+
+                          <button 
+                            onClick={() => setShowFilters(!showFilters)}
+                            className={`flex items-center gap-1 text-sm font-bold transition-colors ${showFilters ? 'text-primary' : 'text-on-surface-variant hover:text-primary'}`}
+                          >
+                            <span className="material-symbols-outlined text-[16px]">filter_list</span>
+                            Filtros
+                          </button>
+                        </div>
+
+                        {showFilters && (
+                          <div className="bg-surface border border-outline-variant rounded-lg p-4 flex flex-col gap-3 animate-in slide-in-from-top-2 duration-200">
+                            <div className="flex flex-col gap-1">
+                              <label className="text-[11px] font-bold text-outline">Remitente contiene:</label>
+                              <input type="text" placeholder="@mibanco.com.pe" className="w-full text-sm py-1.5 px-3 border border-outline-variant rounded focus:border-primary outline-none" />
+                            </div>
+                            <div className="flex gap-2">
+                              <div className="flex flex-col gap-1 flex-1">
+                                <label className="text-[11px] font-bold text-outline">Fecha desde:</label>
+                                <input type="date" className="w-full text-sm py-1.5 px-3 border border-outline-variant rounded focus:border-primary outline-none" />
+                              </div>
+                              <div className="flex flex-col gap-1 flex-1">
+                                <label className="text-[11px] font-bold text-outline">Fecha hasta:</label>
+                                <input type="date" className="w-full text-sm py-1.5 px-3 border border-outline-variant rounded focus:border-primary outline-none" />
+                              </div>
+                            </div>
                           </div>
-                          <input type="checkbox" className="hidden" checked={unreadOnly} onChange={() => setUnreadOnly(!unreadOnly)} />
-                          <span className="text-sm text-on-surface-variant font-bold group-hover:text-primary transition-colors">Analizar solo correos no leídos</span>
-                        </label>
+                        )}
 
                         <button
                           onClick={() => {
@@ -186,15 +241,44 @@ export default function IngestaPage() {
                       <h3 className="font-headline-md text-xl text-on-surface mb-2 font-bold">{foundPieces.length} Piezas Detectadas</h3>
                       <p className="font-body-md text-on-surface-variant text-sm mb-6 max-w-sm">¿Deseas importar estas piezas y generar un código único para cada una de ellas?</p>
 
-                      <div className="w-full flex flex-col gap-2 mb-8">
+                      <div className="w-full flex justify-between items-center mb-4 px-2">
+                        <button 
+                          onClick={handleGroupSelected}
+                          disabled={foundPieces.filter(p => p.selected).length < 2}
+                          className="flex items-center gap-1 text-[12px] font-bold text-primary disabled:text-outline disabled:cursor-not-allowed hover:bg-primary-container/50 px-2 py-1 rounded transition-colors"
+                        >
+                          <span className="material-symbols-outlined text-[16px]">view_comfy</span>
+                          Agrupar Seleccionados
+                        </button>
+                        
+                        <button 
+                          onClick={handleAddPiece}
+                          className="flex items-center gap-1 text-[12px] font-bold text-on-surface-variant hover:text-primary hover:bg-surface-container px-2 py-1 rounded transition-colors"
+                        >
+                          <span className="material-symbols-outlined text-[16px]">add_circle</span>
+                          Añadir Pieza
+                        </button>
+                      </div>
+
+                      <div className="w-full flex flex-col gap-2 mb-8 max-h-[250px] overflow-y-auto pr-2 custom-scrollbar">
                         {foundPieces.map((piece) => (
-                          <div key={piece.id} className="bg-surface border border-outline-variant rounded-lg p-3 flex items-center justify-between gap-3 text-left hover:border-primary transition-colors">
-                            <div className="flex items-center gap-3 overflow-hidden">
+                          <div key={piece.id} className={`bg-surface border ${piece.selected ? 'border-primary ring-1 ring-primary' : 'border-outline-variant'} rounded-lg p-3 flex items-center justify-between gap-3 text-left transition-all`}>
+                            <div className="flex items-center gap-3 overflow-hidden flex-1 cursor-pointer" onClick={() => togglePieceSelection(piece.id)}>
+                              <div className={`w-4 h-4 rounded-sm border flex items-center justify-center transition-colors shrink-0 ${piece.selected ? 'bg-primary border-primary' : 'border-outline'}`}>
+                                {piece.selected && <span className="material-symbols-outlined text-on-primary text-[12px]">check</span>}
+                              </div>
                               <span className={`material-symbols-outlined text-[24px] shrink-0 ${piece.type === 'pdf' ? 'text-error' : piece.type === 'docx' ? 'text-info' : 'text-warning'}`}>
                                 {piece.type === 'pdf' ? 'picture_as_pdf' : piece.type === 'docx' ? 'description' : 'image'}
                               </span>
                               <div className="flex flex-col truncate">
-                                <span className="font-bold text-sm text-on-surface truncate">{piece.name}</span>
+                                <span className="font-bold text-sm text-on-surface truncate flex items-center gap-2">
+                                  {piece.name}
+                                  {piece.group && (
+                                    <span className="bg-tertiary-container text-on-tertiary-container text-[9px] px-2 py-0.5 rounded-full whitespace-nowrap">
+                                      {piece.group}
+                                    </span>
+                                  )}
+                                </span>
                                 <span className="text-[10px] text-on-surface-variant flex items-center gap-1">
                                   <span className="material-symbols-outlined text-[10px]">mail</span>
                                   {piece.sender}
@@ -206,12 +290,12 @@ export default function IngestaPage() {
                               className="w-8 h-8 rounded-full hover:bg-error/10 text-outline hover:text-error flex items-center justify-center transition-colors shrink-0"
                               title="Quitar pieza"
                             >
-                              <span className="material-symbols-outlined text-[16px]">close</span>
+                              <span className="material-symbols-outlined text-[16px]">delete</span>
                             </button>
                           </div>
                         ))}
                         {foundPieces.length === 0 && (
-                          <p className="text-sm text-outline italic py-4">No hay piezas seleccionadas.</p>
+                          <p className="text-sm text-outline italic py-4 text-center">No hay piezas seleccionadas.</p>
                         )}
                       </div>
 

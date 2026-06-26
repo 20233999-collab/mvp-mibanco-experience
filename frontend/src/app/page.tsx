@@ -31,9 +31,19 @@ export default function Home() {
           <img alt="Mibanco Logo" className="h-12 md:h-16 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBmssiu49Zy8zQu6aJwt2ouVEUwZKT2EENlQ-39re8WEkENKMg4sRlGKw-h56xguvnlrMceDX7d2itsqsT5anlGHr9J6EI2nBCv6S6I5QTQXeMNZoTEle-nGdY7n9qFx1_k8VPiWGxE7twh6dVOC1wGFQJ5AxklaffZAUGbACdy2oXG4lndxwYF4zlzZ21NRfUeUqo6sazMPQZiPDfmDcilN7PlxU_TP-yhiz7Ky4i1yFYISSJ9vl8IyMvrQMnecNgj1dtWMzUn41LY" />
         </div>
         <div className="hidden md:flex items-center gap-6">
-          <a className="text-primary font-bold border-b-2 border-primary transition-colors py-1" href="/">Inicio</a>
-          <a className="text-on-surface-variant hover:text-primary-container transition-colors py-1" href="/tracking">Rastreador</a>
-          <a className="text-on-surface-variant hover:text-primary-container transition-colors py-1" href="/acerca">Acerca de</a>
+          <button 
+            onClick={() => setIsLoginView(true)}
+            className={`${isLoginView ? 'text-primary font-bold border-b-2 border-primary' : 'text-on-surface-variant hover:text-primary-container'} transition-colors py-1 cursor-pointer`}
+          >
+            Inicio
+          </button>
+          <button 
+            onClick={() => setIsLoginView(false)}
+            className={`${!isLoginView ? 'text-primary font-bold border-b-2 border-primary' : 'text-on-surface-variant hover:text-primary-container'} transition-colors py-1 cursor-pointer`}
+          >
+            Rastreador
+          </button>
+          <a className="text-on-surface-variant hover:text-primary-container transition-colors py-1 cursor-pointer" href="/acerca">Acerca de</a>
         </div>
         <div className="flex items-center gap-4 text-primary">
           <span className="material-symbols-outlined cursor-pointer hover:opacity-70 transition-all">help</span>

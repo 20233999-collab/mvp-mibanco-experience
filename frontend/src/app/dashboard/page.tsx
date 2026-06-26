@@ -119,43 +119,136 @@ export default function DashboardPage() {
 
           </div>
 
-          {/* Sección Inferior: Hallazgos Minimalistas */}
-          <div>
-            <h2 className="font-headline-md text-xl font-bold text-on-surface mb-6">
-              Principales Hallazgos
+          {/* Sección Inferior: 3 Columnas de Análisis */}
+          <div className="mt-4 border-t border-outline-variant pt-8">
+            <h2 className="font-headline-md text-2xl font-black text-on-surface mb-6">
+              Análisis Multi-Agente
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
               
-              {/* Feedback 1 */}
-              <div className="border border-outline-variant rounded-xl p-6 hover:shadow-md transition-shadow">
-                <div className="flex items-center gap-2 mb-4">
-                  <span className="material-symbols-outlined text-error text-[20px]">balance</span>
-                  <h3 className="font-bold text-sm text-on-surface">Agente Legal (Indecopi)</h3>
-                  <span className="ml-auto bg-error/10 text-error text-[10px] px-2 py-0.5 rounded uppercase font-bold">Alta Prioridad</span>
+              {/* Columna 1: Borrador Original */}
+              <div className="flex flex-col gap-4">
+                <div className="flex items-center justify-between border-b border-outline-variant pb-2">
+                  <h3 className="font-bold text-sm text-on-surface-variant uppercase tracking-wider">Input Comercial</h3>
+                  <span className="bg-surface-container-high text-xs px-2 py-1 rounded font-bold">Original</span>
                 </div>
-                <p className="text-sm text-on-surface-variant mb-4 leading-relaxed">
-                  La tasa TCEA no es visible en proporción a la oferta principal según la norma de transparencia.
-                </p>
-                <div className="bg-surface-container-low p-3 rounded text-sm border border-outline-variant/50">
-                  <span className="text-outline text-[10px] font-bold block mb-1">SUGERENCIA:</span>
-                  Añadir: <span className="font-bold">"TCEA Máxima 89.90% calculada a 12 meses"</span> en fuente no menor a 10pt.
+                <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 flex-grow shadow-sm text-on-surface-variant leading-relaxed text-sm">
+                  <p>
+                    "<span className="bg-[#E0F2FE] text-[#0284C7] font-bold border-b-2 border-[#0284C7] px-1 cursor-help" title="Filtro de Claridad">Apreciable cliente, por medio de la presente se le notifica que</span>, <span className="bg-[#E0F2FE] text-[#0284C7] font-bold border-b-2 border-[#0284C7] px-1 cursor-help" title="Filtro de Claridad">prior a la fecha</span> de vencimiento, debe realizar la cancelación de su cuota. En caso de que <span className="bg-[#E0F2FE] text-[#0284C7] font-bold border-b-2 border-[#0284C7] px-1 cursor-help" title="Filtro de Claridad">incurra en mora</span>, <span className="bg-[#FEF3C7] text-[#D97706] font-bold border-b-2 border-[#D97706] px-1 cursor-help" title="Filtro de Tono">perderá sus beneficios</span> y procederemos a aplicar las penalidades. Pague <span className="bg-[#F3E8FF] text-[#9333EA] font-bold border-b-2 border-[#9333EA] px-1 cursor-help" title="Filtro UX">HOY MISMO</span> para <span className="bg-[#FEF3C7] text-[#D97706] font-bold border-b-2 border-[#D97706] px-1 cursor-help" title="Filtro de Tono">evitar problemas con su negocio</span>. Atte. Mibanco."
+                  </p>
                 </div>
               </div>
 
-              {/* Feedback 2 */}
-              <div className="border border-outline-variant rounded-xl p-6 hover:shadow-md transition-shadow">
-                <div className="flex items-center gap-2 mb-4">
-                  <span className="material-symbols-outlined text-primary text-[20px]">edit_note</span>
-                  <h3 className="font-bold text-sm text-on-surface">Agente de Claridad y Tono</h3>
-                  <span className="ml-auto bg-success/10 text-success text-[10px] px-2 py-0.5 rounded uppercase font-bold">Optimizado</span>
+              {/* Columna 2: Panel de Agentes IA */}
+              <div className="flex flex-col gap-4">
+                <div className="flex items-center justify-between border-b border-outline-variant pb-2">
+                  <h3 className="font-bold text-sm text-on-surface-variant uppercase tracking-wider">Panel de Agentes IA</h3>
+                  <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded font-bold">Procesando</span>
                 </div>
-                <p className="text-sm text-on-surface-variant mb-4 leading-relaxed">
-                  Se reescribió el saludo inicial para conectar mejor con el perfil "Guerrero Emprendedor".
-                </p>
-                <div className="flex flex-col gap-2">
-                  <div className="text-[12px] text-outline line-through">"Estimado cliente, adquiera su crédito..."</div>
-                  <div className="text-[13px] font-bold text-primary bg-primary/5 p-2 rounded">"¡Sobrino! Potencia tu negocio hoy..."</div>
+                <div className="flex flex-col gap-4 h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+                  
+                  {/* Tarjeta Claridad */}
+                  <div className="border border-[#0284C7]/30 bg-[#E0F2FE]/50 rounded-xl p-4 transition-all hover:shadow-md">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="material-symbols-outlined text-[#0284C7] text-[18px]">format_paint</span>
+                      <h4 className="font-bold text-sm text-[#0284C7]">Agente de Claridad (ISO 24495)</h4>
+                    </div>
+                    <p className="text-[12px] text-on-surface-variant mb-2">
+                      <span className="font-bold">Diagnóstico:</span> Uso de jerga burocrática y locuciones anticuadas que generan sobrecarga cognitiva.
+                    </p>
+                    <p className="text-[12px] text-on-surface-variant mb-3">
+                      <span className="font-bold text-[#0284C7]">Regla Mibanco:</span> El manual exige eliminar fórmulas de cortesía vacías y usar lenguaje cotidiano.
+                    </p>
+                    <div className="bg-surface p-2 rounded border border-[#0284C7]/20">
+                      <span className="font-bold block mb-1 text-[10px] text-outline">SUGERENCIA:</span>
+                      <p className="text-[12px] text-on-surface">Cambiar a pronombres directos: <span className="font-bold">"Le informamos que..."</span>, <span className="font-bold">"Antes de su fecha..."</span></p>
+                    </div>
+                  </div>
+
+                  {/* Tarjeta Tono */}
+                  <div className="border border-[#D97706]/30 bg-[#FEF3C7]/50 rounded-xl p-4 transition-all hover:shadow-md">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="material-symbols-outlined text-[#D97706] text-[18px]">campaign</span>
+                      <h4 className="font-bold text-sm text-[#D97706]">Agente de Tono (Voz "El Tigre")</h4>
+                    </div>
+                    <p className="text-[12px] text-on-surface-variant mb-2">
+                      <span className="font-bold">Diagnóstico:</span> Tono punitivo y amenazante. Va en contra de la identidad del emprendedor peruano.
+                    </p>
+                    <p className="text-[12px] text-on-surface-variant mb-3">
+                      <span className="font-bold text-[#D97706]">Regla Mibanco:</span> El tono debe ser motivador y apelar al progreso. Usar Nudges de ganancia.
+                    </p>
+                    <div className="bg-surface p-2 rounded border border-[#D97706]/20">
+                      <span className="font-bold block mb-1 text-[10px] text-outline">SUGERENCIA:</span>
+                      <p className="text-[12px] text-on-surface">Reformular con empatía: <span className="font-bold">"Mantenga su historial impecable para impulsar el progreso de su negocio."</span></p>
+                    </div>
+                  </div>
+
+                  {/* Tarjeta UX */}
+                  <div className="border border-[#9333EA]/30 bg-[#F3E8FF]/50 rounded-xl p-4 transition-all hover:shadow-md">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="material-symbols-outlined text-[#9333EA] text-[18px]">touch_app</span>
+                      <h4 className="font-bold text-sm text-[#9333EA]">Agente UX/CX (WhatsApp)</h4>
+                    </div>
+                    <p className="text-[12px] text-on-surface-variant mb-2">
+                      <span className="font-bold">Diagnóstico:</span> Alta fricción. Mayúsculas agresivas y no hay un Call to Action (botón) ágil.
+                    </p>
+                    <p className="text-[12px] text-on-surface-variant mb-3">
+                      <span className="font-bold text-[#9333EA]">Regla Mibanco:</span> Mensajes cortos, máximo 2 emojis, incluir enlace/botón de pago directo.
+                    </p>
+                    <div className="bg-surface p-2 rounded border border-[#9333EA]/20">
+                      <span className="font-bold block mb-1 text-[10px] text-outline">SUGERENCIA:</span>
+                      <p className="text-[12px] text-on-surface">Estructurar con saltos de línea, agregar emojis y colocar botón de <span className="font-bold">Yape/Plin</span>.</p>
+                    </div>
+                  </div>
+
                 </div>
+              </div>
+
+              {/* Columna 3: Propuesta Optimizada */}
+              <div className="flex flex-col gap-4">
+                <div className="flex items-center justify-between border-b border-outline-variant pb-2">
+                  <h3 className="font-bold text-sm text-on-surface-variant uppercase tracking-wider">Output Inteligente</h3>
+                  <span className="bg-success/10 text-success text-xs px-2 py-1 rounded font-bold">Optimizado</span>
+                </div>
+                
+                {/* Mockup WhatsApp */}
+                <div className="bg-[#EFEAE2] border border-outline-variant rounded-xl p-4 flex flex-col justify-between shadow-sm relative overflow-hidden h-full min-h-[350px]">
+                  {/* WhatsApp Header Mockup */}
+                  <div className="bg-[#008069] absolute top-0 left-0 w-full px-4 py-3 flex items-center gap-3 shadow-md z-10">
+                    <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center overflow-hidden p-1">
+                      <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBmssiu49Zy8zQu6aJwt2ouVEUwZKT2EENlQ-39re8WEkENKMg4sRlGKw-h56xguvnlrMceDX7d2itsqsT5anlGHr9J6EI2nBCv6S6I5QTQXeMNZoTEle-nGdY7n9qFx1_k8VPiWGxE7twh6dVOC1wGFQJ5AxklaffZAUGbACdy2oXG4lndxwYF4zlzZ21NRfUeUqo6sazMPQZiPDfmDcilN7PlxU_TP-yhiz7Ky4i1yFYISSJ9vl8IyMvrQMnecNgj1dtWMzUn41LY" alt="Mibanco" className="object-contain" />
+                    </div>
+                    <span className="text-white font-bold text-sm">Mibanco Asistente</span>
+                  </div>
+
+                  <div className="mt-14 flex flex-col gap-2 relative z-10">
+                    <div className="bg-white rounded-lg rounded-tl-none p-3 shadow-sm max-w-[90%] text-[13px] text-on-surface leading-snug">
+                      <p className="mb-2">¡Hola María! 👋 Cuida tu historial crediticio, aprovecha que mañana es tu fecha de pago.</p>
+                      <p className="mb-2">En Mibanco sabemos que tu negocio no se detiene. Asegura el progreso de tu librería y accede a nuevas oportunidades. 🐅</p>
+                      <p>Paga tu cuota de S/ 250 de forma rápida y segura desde tu celular aquí:</p>
+                    </div>
+                    {/* Fake WhatsApp Button */}
+                    <div className="bg-white rounded-lg shadow-sm max-w-[90%] overflow-hidden border border-outline-variant/30 text-center cursor-pointer hover:bg-surface-container transition-colors">
+                      <div className="p-2 border-b border-outline-variant/30 flex items-center justify-center gap-1">
+                         <span className="material-symbols-outlined text-[16px] text-[#00A159]">payments</span>
+                         <span className="text-[13px] font-bold text-[#00A159]">Pagar con Yape/Plin</span>
+                      </div>
+                      <div className="p-2 text-[11px] text-outline bg-surface-container-lowest">
+                         Enlace Seguro
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Botón de Aprobación Real del Dashboard */}
+                  <div className="mt-6 z-10">
+                    <Link href="/tracking" className="w-full bg-[#00A159] hover:bg-[#00894B] text-white font-bold text-sm py-4 px-4 rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg hover:-translate-y-1">
+                      Aprobar y Enviar a WhatsApp
+                      <span className="material-symbols-outlined text-[20px]">send</span>
+                    </Link>
+                  </div>
+                </div>
+
               </div>
 
             </div>

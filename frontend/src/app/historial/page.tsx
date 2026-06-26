@@ -1,177 +1,220 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-
-const mockHistory = [
-  {
-    id: "CMP-NV-092",
-    name: "Campaña_Navidad_Final.docx",
-    date: "26 Jun 2026",
-    status: "Aprobado",
-    risk: "Bajo",
-    type: "SMS Promocional"
-  },
-  {
-    id: "CMP-CT-045",
-    name: "Mailing_Capital_Trabajo_v2.pdf",
-    date: "24 Jun 2026",
-    status: "En Revisión",
-    risk: "Medio",
-    type: "Mailing"
-  },
-  {
-    id: "CMP-CR-012",
-    name: "Guion_Cobranza_Preventiva.txt",
-    date: "20 Jun 2026",
-    status: "Aprobado",
-    risk: "Bajo",
-    type: "Guion Telefónico"
-  },
-  {
-    id: "CMP-LD-088",
-    name: "Landing_Page_Depositos_Plazo.docx",
-    date: "15 Jun 2026",
-    status: "Rechazado",
-    risk: "Alto",
-    type: "Web Content"
-  }
-];
+import { useState, useEffect } from "react";
 
 export default function HistorialPage() {
   const [searchTerm, setSearchTerm] = useState("");
+  const [isMounted, setIsMounted] = useState(false);
+  const [expandedId, setExpandedId] = useState<string | null>("CMP-NV-092");
 
-  const filteredHistory = mockHistory.filter(item => 
-    item.id.toLowerCase().includes(searchTerm.toLowerCase()) || 
-    item.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const mockHistory = [
+    {
+      id: "CMP-NV-092",
+      name: "Campaña Navidad 2026",
+      date: "26 Jun 2026, 14:30",
+      approver: "M. Álvarez (CX)",
+      risk: "0% (Mitigado)",
+      status: "Desplegado",
+      original: "Estimado cliente, se le otorga un préstamo navideño con tasa del 40% sujeto a comisiones ocultas si no paga.",
+      final: "¡Hola! Esta Navidad, Mibanco te acompaña. Accede a tu crédito con tasa transparente y cuotas fijas. Revisa las condiciones aquí.",
+      ai_log: [
+        { agent: "Agente Legal (Indecopi)", action: "Se eliminó la mención a 'comisiones ocultas' por infracción a la Ley de Transparencia (Resolución SBS)." },
+        { agent: "Agente Tono", action: "Se cambió 'Estimado cliente' por un saludo más cálido ('¡Hola!') según el manual El Tigre Digital." }
+      ]
+    },
+    {
+      id: "WSP-COB-040",
+      name: "Recordatorio Día 15 (WSP)",
+      date: "20 Jun 2026, 09:15",
+      approver: "J. Pérez (CX)",
+      risk: "0% (Mitigado)",
+      status: "Desplegado",
+      original: "Paga tu cuota hoy o te enviaremos a cobranza judicial y perderás tu negocio.",
+      final: "Recuerda que hoy es tu fecha de pago. Mantén tu historial impecable para seguir impulsando tu negocio.",
+      ai_log: [
+        { agent: "Agente Legal (Indecopi)", action: "Alerta Crítica: Se detectó amenaza de 'cobranza judicial'. Se reformuló para evitar multas de hasta 450 UIT por métodos abusivos." },
+        { agent: "Agente UX", action: "Se acortó el mensaje para WhatsApp y se sugirió añadir un enlace de pago directo." }
+      ]
+    },
+    {
+      id: "CMP-CT-044",
+      name: "Capital MYPE (Email)",
+      date: "15 Jun 2026, 11:00",
+      approver: "A. Gómez (Legal)",
+      risk: "0% (Mitigado)",
+      status: "Desplegado",
+      original: "Aproveche nuestro crédito para comprar mercadería antes del cierre de mes.",
+      final: "Impulsa tu negocio esta temporada. Solicita tu Capital de Trabajo hoy mismo y abastece tu local sin preocupaciones.",
+      ai_log: [
+        { agent: "Agente de Claridad", action: "Se reemplazó 'comprar mercadería' por 'abastece tu local' para mayor impacto comercial." }
+      ]
+    }
+  ];
 
   return (
-    <>
-      {/* TopNavBar */}
-      <nav className="bg-surface border-b border-outline-variant flex justify-between items-center w-full px-4 md:px-10 py-4 sticky top-0 z-50">
-        <div className="flex items-center gap-2">
-          <img alt="Mibanco Logo" className="h-12 md:h-16 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBmssiu49Zy8zQu6aJwt2ouVEUwZKT2EENlQ-39re8WEkENKMg4sRlGKw-h56xguvnlrMceDX7d2itsqsT5anlGHr9J6EI2nBCv6S6I5QTQXeMNZoTEle-nGdY7n9qFx1_k8VPiWGxE7twh6dVOC1wGFQJ5AxklaffZAUGbACdy2oXG4lndxwYF4zlzZ21NRfUeUqo6sazMPQZiPDfmDcilN7PlxU_TP-yhiz7Ky4i1yFYISSJ9vl8IyMvrQMnecNgj1dtWMzUn41LY" />
-        </div>
-        <div className="hidden md:flex items-center gap-6">
-          <Link className="text-on-surface-variant hover:text-primary-container transition-colors py-1" href="/">Inicio</Link>
-          <Link className="text-on-surface-variant hover:text-primary-container transition-colors py-1" href="/dashboard">Dashboard</Link>
-          <span className="text-primary font-bold border-b-2 border-primary transition-colors py-1">Historial CX</span>
-        </div>
-        <div className="flex items-center gap-4 text-primary">
-          <span className="material-symbols-outlined cursor-pointer hover:opacity-70 transition-all">account_circle</span>
-        </div>
-      </nav>
-
-      {/* Main Content Layout */}
-      <main className="flex-grow flex flex-col items-center justify-start relative px-4 md:px-10 py-10 min-h-[80vh] bg-surface-dim">
-        <div className="absolute inset-0 bunting-pattern pointer-events-none opacity-30"></div>
+    <div className="h-screen w-full bg-surface-dim overflow-hidden">
+      <div className={`flex h-full w-full transition-all duration-[800ms] ease-out transform ${isMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
         
-        <div className="w-full max-w-5xl z-10 flex flex-col gap-8">
+        {/* Sidebar Izquierdo */}
+        <aside className="w-56 bg-surface-container-lowest border-r border-outline-variant flex flex-col z-20">
+          <div className="p-4 py-6 border-b border-outline-variant flex items-center justify-center">
+            <img alt="Mibanco Logo" className="h-20 w-full object-contain scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBmssiu49Zy8zQu6aJwt2ouVEUwZKT2EENlQ-39re8WEkENKMg4sRlGKw-h56xguvnlrMceDX7d2itsqsT5anlGHr9J6EI2nBCv6S6I5QTQXeMNZoTEle-nGdY7n9qFx1_k8VPiWGxE7twh6dVOC1wGFQJ5AxklaffZAUGbACdy2oXG4lndxwYF4zlzZ21NRfUeUqo6sazMPQZiPDfmDcilN7PlxU_TP-yhiz7Ky4i1yFYISSJ9vl8IyMvrQMnecNgj1dtWMzUn41LY" />
+          </div>
           
-          {/* Header y Buscador */}
-          <div className="bg-primary-container rounded-xl p-8 md:p-12 mibanco-shadow flex flex-col items-center text-center tilted-header relative overflow-hidden">
-            <span className="material-symbols-outlined text-on-primary text-6xl opacity-20 absolute top-4 right-8">manage_search</span>
-            <h1 className="font-headline-xl text-3xl md:text-4xl text-on-primary font-black mb-4">
-              Central de Trazabilidad e Historial
-            </h1>
-            <p className="font-body-lg text-on-primary-container mb-8 max-w-2xl">
-              Bitácora de auditoría inmutable. Busca el código único o nombre de la pieza para revisar su historial de cambios y aprobación legal.
-            </p>
+          <div className="p-0 flex-grow flex flex-col mt-4">
+            <p className="text-[10px] text-outline mb-2 px-6 font-bold tracking-widest uppercase">MENU PRINCIPAL</p>
+            <Link href="/panel" className="flex items-center gap-3 px-6 py-3 border-l-2 border-transparent text-on-surface-variant hover:text-primary transition-all text-xs">
+              <span className="material-symbols-outlined text-[18px] opacity-70">dashboard</span>
+              Panel de Control
+            </Link>
+            <a href="#" className="flex items-center gap-3 px-6 py-3 border-l-2 border-secondary text-primary font-bold bg-surface-container/30 transition-all text-xs">
+              <span className="material-symbols-outlined text-[18px]">history</span>
+              Historial / Trazabilidad
+            </a>
+            <a href="#" className="flex items-center gap-3 px-6 py-3 border-l-2 border-transparent text-on-surface-variant hover:text-primary transition-all text-xs">
+              <span className="material-symbols-outlined text-[18px] opacity-70">description</span>
+              Plantillas Aprobadas
+            </a>
             
-            <div className="relative w-full max-w-2xl">
-              <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline text-2xl">search</span>
+            <p className="text-[10px] text-outline mb-2 px-6 mt-6 font-bold tracking-widest uppercase">CONFIGURACIÓN</p>
+            <Link href="/ajustes" className="flex items-center gap-3 px-6 py-3 border-l-2 border-transparent text-on-surface-variant hover:text-primary transition-all text-xs">
+              <span className="material-symbols-outlined text-[18px] opacity-70">settings</span>
+              Ajustes de Agentes
+            </Link>
+            <a href="#" className="flex items-center gap-3 px-6 py-3 border-l-2 border-transparent text-on-surface-variant hover:text-primary transition-all text-xs">
+              <span className="material-symbols-outlined text-[18px] opacity-70">shield_person</span>
+              Reglas Indecopi
+            </a>
+          </div>
+        </aside>
+
+        {/* Contenido Principal */}
+        <main className="flex-1 flex flex-col relative overflow-y-auto bg-surface custom-scrollbar">
+          
+          <header className="bg-surface/90 backdrop-blur-md border-b border-outline-variant p-4 px-8 flex justify-between items-center z-30 sticky top-0">
+            <div>
+              <h1 className="font-headline-md text-xl font-black text-on-surface">Historial y Auditoría</h1>
+              <p className="text-xs text-on-surface-variant">Central de trazabilidad y protección de marca ante Indecopi.</p>
+            </div>
+            <div className="relative w-64">
+              <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[16px]">search</span>
               <input 
                 type="text" 
-                placeholder="Buscar Código Único (Ej: CMP-NV-092) o nombre de pieza..." 
-                className="w-full pl-14 pr-6 py-4 rounded-full border-2 border-transparent focus:border-primary shadow-lg text-body-lg outline-none transition-all"
+                placeholder="Buscar por ID de pieza..." 
+                className="w-full pl-9 pr-4 py-1.5 rounded-lg border border-outline-variant focus:border-primary focus:ring-0 text-xs outline-none transition-all"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
-          </div>
+          </header>
 
-          {/* Tabla de Resultados (Estilo Cards Apiladas) */}
-          <div className="bg-surface-container-lowest rounded-xl p-6 md:p-8 mibanco-shadow">
-            <div className="flex justify-between items-center mb-6 border-b border-outline-variant pb-4">
-              <h2 className="font-headline-md text-xl font-bold text-on-surface">
-                Registros Recientes
-              </h2>
-              <span className="font-label-bold text-sm text-outline font-bold">
-                Mostrando {filteredHistory.length} resultados
-              </span>
+          <div className="p-6 md:px-10 z-10 w-full mx-auto flex flex-col gap-4">
+            <div className="flex justify-between items-end mb-2">
+              <h2 className="font-headline-md text-sm font-bold uppercase tracking-wider text-outline">Registro de Evaluaciones Finalizadas</h2>
             </div>
 
             <div className="flex flex-col gap-4">
-              {filteredHistory.map((item, index) => (
-                <Link href={item.id === "CMP-NV-092" ? "/tracking" : "#"} key={index} className="group flex flex-col md:flex-row justify-between items-start md:items-center p-4 rounded-lg border border-outline-variant hover:border-primary hover:bg-surface transition-all bg-surface-container-lowest cursor-pointer">
+              {mockHistory.filter(c => c.id.toLowerCase().includes(searchTerm.toLowerCase()) || c.name.toLowerCase().includes(searchTerm.toLowerCase())).map((item) => (
+                <div key={item.id} className={`bg-surface-container-lowest border rounded-xl overflow-hidden transition-all duration-300 ${expandedId === item.id ? 'border-primary shadow-md' : 'border-outline-variant hover:border-primary/50 hover:shadow-sm'}`}>
                   
-                  <div className="flex items-center gap-4 mb-4 md:mb-0">
-                    <div className="bg-surface-dim p-3 rounded-lg text-primary group-hover:bg-primary-container transition-colors">
-                      <span className="material-symbols-outlined">description</span>
-                    </div>
-                    <div>
-                      <h3 className="font-body-lg font-bold text-on-surface group-hover:text-primary transition-colors">
-                        {item.name}
-                      </h3>
-                      <div className="flex gap-3 mt-1">
-                        <span className="font-mono text-xs font-bold text-outline bg-surface-container px-2 py-1 rounded">
-                          {item.id}
-                        </span>
-                        <span className="font-label-bold text-xs text-on-surface-variant flex items-center gap-1">
-                          <span className="material-symbols-outlined text-[14px]">calendar_today</span>
-                          {item.date}
-                        </span>
+                  {/* Encabezado de la Tarjeta (Resumen) */}
+                  <div 
+                    className="p-4 flex items-center justify-between cursor-pointer bg-surface"
+                    onClick={() => setExpandedId(expandedId === item.id ? null : item.id)}
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className="bg-success/10 text-success p-2 rounded-lg flex items-center justify-center">
+                        <span className="material-symbols-outlined text-[20px]">gavel</span>
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <h3 className="font-bold text-on-surface text-sm">{item.id} - {item.name}</h3>
+                          <span className="bg-success/10 border border-success text-success px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider">Auditado</span>
+                        </div>
+                        <p className="text-xs text-on-surface-variant mt-0.5">Aprobado por: <span className="font-bold">{item.approver}</span> el {item.date}</p>
                       </div>
                     </div>
-                  </div>
-
-                  <div className="flex items-center gap-6 w-full md:w-auto justify-between md:justify-end border-t md:border-t-0 border-outline-variant pt-4 md:pt-0">
-                    <div className="flex flex-col md:items-end">
-                      <span className="font-label-bold text-xs text-outline mb-1 font-bold">ESTADO LEGAL</span>
-                      <span className={`text-sm font-bold px-3 py-1 rounded-full ${
-                        item.status === 'Aprobado' ? 'bg-success/10 text-success' :
-                        item.status === 'En Revisión' ? 'bg-warning/10 text-warning' :
-                        'bg-error/10 text-error'
-                      }`}>
-                        {item.status}
+                    <div className="flex items-center gap-4">
+                      <div className="text-right hidden md:block">
+                        <p className="text-[10px] text-outline font-bold uppercase tracking-wider">Riesgo Indecopi</p>
+                        <p className="text-xs font-bold text-success">{item.risk}</p>
+                      </div>
+                      <span className={`material-symbols-outlined text-outline transition-transform duration-300 ${expandedId === item.id ? 'rotate-180' : ''}`}>
+                        expand_more
                       </span>
                     </div>
-                    <span className="material-symbols-outlined text-outline group-hover:text-primary transition-colors">
-                      chevron_right
-                    </span>
                   </div>
 
-                </Link>
-              ))}
+                  {/* Detalle Expandido (Bitácora) */}
+                  <div className={`overflow-hidden transition-all duration-500 ease-in-out ${expandedId === item.id ? 'max-h-[800px] opacity-100 border-t border-outline-variant' : 'max-h-0 opacity-0'}`}>
+                    <div className="p-6 bg-surface-container-lowest flex flex-col gap-6">
+                      
+                      {/* Grid de Comparación (Borrador vs Final) */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="flex flex-col gap-2">
+                          <h4 className="font-bold text-xs uppercase tracking-wider text-outline flex items-center gap-1">
+                            <span className="material-symbols-outlined text-[14px]">history_edu</span>
+                            Borrador Original (Ingesta)
+                          </h4>
+                          <div className="bg-[#FEF2F2] border border-[#FECACA] p-4 rounded-lg text-sm text-[#991B1B] font-medium leading-relaxed shadow-inner">
+                            "{item.original}"
+                          </div>
+                        </div>
+                        
+                        <div className="flex flex-col gap-2">
+                          <h4 className="font-bold text-xs uppercase tracking-wider text-success flex items-center gap-1">
+                            <span className="material-symbols-outlined text-[14px]">verified</span>
+                            Versión Aprobada y Desplegada
+                          </h4>
+                          <div className="bg-[#F0FDF4] border border-[#BBF7D0] p-4 rounded-lg text-sm text-[#166534] font-medium leading-relaxed shadow-inner">
+                            "{item.final}"
+                          </div>
+                        </div>
+                      </div>
 
-              {filteredHistory.length === 0 && (
-                <div className="py-12 flex flex-col items-center text-center">
-                  <span className="material-symbols-outlined text-6xl text-outline mb-4">search_off</span>
-                  <p className="font-body-lg text-on-surface-variant font-bold">No se encontraron piezas con ese código.</p>
-                  <button className="mt-4 text-primary font-label-bold hover:underline" onClick={() => setSearchTerm("")}>
-                    Limpiar búsqueda
-                  </button>
+                      {/* Log de Decisiones de IA */}
+                      <div>
+                        <h4 className="font-bold text-xs uppercase tracking-wider text-outline mb-3 flex items-center gap-1">
+                          <span className="material-symbols-outlined text-[14px]">memory</span>
+                          Bitácora de Decisiones de Agentes IA
+                        </h4>
+                        <div className="bg-surface border border-outline-variant rounded-lg overflow-hidden">
+                          {item.ai_log.map((log, i) => (
+                            <div key={i} className={`p-3 flex gap-3 text-sm ${i !== item.ai_log.length - 1 ? 'border-b border-outline-variant' : ''}`}>
+                              <span className="material-symbols-outlined text-[18px] text-primary mt-0.5">
+                                {log.agent.includes("Legal") ? "gavel" : log.agent.includes("Tono") ? "campaign" : "format_paint"}
+                              </span>
+                              <div>
+                                <span className="font-bold text-on-surface block mb-0.5">{log.agent}</span>
+                                <span className="text-on-surface-variant text-xs leading-snug">{log.action}</span>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Acciones del Certificado */}
+                      <div className="flex justify-end pt-2">
+                        <button className="bg-surface hover:bg-surface-container-high border border-outline-variant text-on-surface font-bold text-xs py-2.5 px-4 rounded-lg transition-all flex items-center justify-center gap-2 shadow-sm">
+                          <span className="material-symbols-outlined text-[16px]">download</span>
+                          Descargar Certificado Legal (PDF)
+                        </button>
+                      </div>
+
+                    </div>
+                  </div>
                 </div>
-              )}
-
+              ))}
             </div>
-          </div>
 
-        </div>
-      </main>
-
-      {/* Footer */}
-      <footer className="bg-surface-container-low border-t border-outline-variant mt-auto">
-        <div className="w-full py-8 px-4 md:px-10 flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className="flex flex-col md:flex-row items-center gap-4">
-            <span className="font-label-bold text-sm text-on-surface-variant font-bold">© 2024 Mibanco - Todos los derechos reservados.</span>
           </div>
-          <div className="flex items-center gap-4">
-            <span className="font-label-bold text-sm text-primary font-bold">Hecho por el grupo 16: Los Tigres de la Ulima</span>
-          </div>
-        </div>
-      </footer>
-    </>
+        </main>
+      </div>
+    </div>
   );
 }

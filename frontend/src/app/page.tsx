@@ -153,7 +153,7 @@ export default function Home() {
                       <input className="w-full pl-12 pr-4 py-3 rounded-lg border border-outline-variant focus:border-secondary focus:ring-0 text-body-md transition-all outline-none" placeholder="CMP1-SMS-001" type="text" />
                     </div>
                   </div>
-                  <Link href="/tracking" className="bg-primary hover:opacity-90 text-on-primary font-bold text-sm py-4 px-8 rounded-full transition-all flex items-center justify-center gap-2 mibanco-shadow active:scale-95 mt-2">
+                  <Link href="/track" className="bg-primary hover:opacity-90 text-on-primary font-bold text-sm py-4 px-8 rounded-full transition-all flex items-center justify-center gap-2 mibanco-shadow active:scale-95 mt-2">
                     Consultar Estado
                     <span className="material-symbols-outlined">search</span>
                   </Link>

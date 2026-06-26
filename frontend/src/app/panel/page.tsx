@@ -3,98 +3,98 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 
-const mockCampaigns = [
-  {
-    id: "CMP-NV-092",
-    name: "Campaña Navidad 2026",
-    desc: "Pieza principal (SMS y Email) para créditos estacionales.",
-    date: "26 Jun 2026",
-    progress: 100,
-    status: "Aprobado",
-    risk: "Bajo",
-  },
-  {
-    id: "CMP-CT-045",
-    name: "Capital de Trabajo MYPE",
-    desc: "Mailing dirigido a clientes recurrentes con pre-aprobado.",
-    date: "24 Jun 2026",
-    progress: 60,
-    status: "En Revisión",
-    risk: "Medio",
-  },
-  {
-    id: "CMP-CR-012",
-    name: "Guion Prevención Mora",
-    desc: "Actualización de guion para Contact Center.",
-    date: "20 Jun 2026",
-    progress: 100,
-    status: "Aprobado",
-    risk: "Bajo",
-  },
-  {
-    id: "CMP-LD-088",
-    name: "Landing Page DPF",
-    desc: "Depósitos a Plazo Fijo - Campaña Digital. Rechazado por tasa no visible.",
-    date: "15 Jun 2026",
-    progress: 30,
-    status: "Rechazado",
-    risk: "Alto",
-  },
-  {
-    id: "CMP-SE-102",
-    name: "Seguro Protección Total",
-    desc: "Folleto informativo para agencias físicas.",
-    date: "10 Jun 2026",
-    progress: 100,
-    status: "Aprobado",
-    risk: "Bajo",
-  },
-  {
-    id: "CMP-AG-004",
-    name: "Campaña Agropecuario",
-    desc: "Difusión por radio local y afiches en ferias agrarias.",
-    date: "05 Jun 2026",
-    progress: 85,
-    status: "En Revisión",
-    risk: "Medio",
-  },
-  {
-    id: "CMP-CC-021",
-    name: "Renovación Tarjeta de Crédito",
-    desc: "Aviso de actualización de tasas y comisiones.",
-    date: "01 Jun 2026",
-    progress: 10,
-    status: "Rechazado",
-    risk: "Alto",
-  },
-  {
-    id: "CMP-DM-055",
-    name: "Día de la Madre - Crédito",
-    desc: "Postales y banners para redes sociales (Facebook/Instagram).",
-    date: "20 May 2026",
-    progress: 100,
-    status: "Aprobado",
-    risk: "Bajo",
-  },
-  {
-    id: "CMP-VE-077",
-    name: "Campaña Vehicular Taxi",
-    desc: "Financiamiento GNV/GLP para sector transporte.",
-    date: "12 May 2026",
-    progress: 100,
-    status: "Aprobado",
-    risk: "Bajo",
-  },
-  {
-    id: "CMP-ES-033",
-    name: "Campaña Escolar",
-    desc: "Crédito para útiles escolares y pensiones.",
-    date: "15 Feb 2026",
-    progress: 100,
-    status: "Aprobado",
-    risk: "Bajo",
-  }
-];
+  const mockCampaigns = [
+    {
+      id: "WSP-COB-041",
+      name: "Recordatorio de Pago (WSP)",
+      desc: "Mensaje por mora temprana para cartera masiva.",
+      date: "26 Jun 2026",
+      progress: 50,
+      status: "En Revisión",
+      risk: "Alto",
+    },
+    {
+      id: "CMP-NV-092",
+      name: "Campaña Navidad 2026",
+      desc: "Pieza principal (SMS y Email) para créditos estacionales.",
+      date: "26 Jun 2026",
+      progress: 100,
+      status: "Aprobado",
+      risk: "Bajo",
+    },
+    {
+      id: "CMP-CT-045",
+      name: "Capital de Trabajo MYPE",
+      desc: "Mailing dirigido a clientes recurrentes con pre-aprobado.",
+      date: "24 Jun 2026",
+      progress: 60,
+      status: "En Revisión",
+      risk: "Medio",
+    },
+    {
+      id: "CMP-CR-012",
+      name: "Guion Prevención Mora",
+      desc: "Actualización de guion para Contact Center.",
+      date: "20 Jun 2026",
+      progress: 100,
+      status: "Aprobado",
+      risk: "Bajo",
+    },
+    {
+      id: "CMP-LD-088",
+      name: "Landing Page DPF",
+      desc: "Depósitos a Plazo Fijo - Campaña Digital. Rechazado por tasa no visible.",
+      date: "15 Jun 2026",
+      progress: 30,
+      status: "Rechazado",
+      risk: "Alto",
+    },
+    {
+      id: "CMP-SE-102",
+      name: "Seguro Protección Total",
+      desc: "Folleto informativo para agencias físicas.",
+      date: "10 Jun 2026",
+      progress: 100,
+      status: "Aprobado",
+      risk: "Bajo",
+    },
+    {
+      id: "CMP-AG-004",
+      name: "Campaña Agropecuario",
+      desc: "Difusión por radio local y afiches en ferias agrarias.",
+      date: "05 Jun 2026",
+      progress: 85,
+      status: "En Revisión",
+      risk: "Medio",
+    },
+    {
+      id: "CMP-CC-021",
+      name: "Renovación Tarjeta de Crédito",
+      desc: "Aviso de actualización de tasas y comisiones.",
+      date: "01 Jun 2026",
+      progress: 10,
+      status: "Rechazado",
+      risk: "Alto",
+    },
+    {
+      id: "CMP-DM-055",
+      name: "Día de la Madre - Crédito",
+      desc: "Postales y banners para redes sociales (Facebook/Instagram).",
+      date: "20 May 2026",
+      progress: 100,
+      status: "Aprobado",
+      risk: "Bajo",
+    },
+    {
+      id: "CMP-VE-077",
+      name: "Campaña Vehicular Taxi",
+      desc: "Financiamiento GNV/GLP para sector transporte.",
+      date: "12 May 2026",
+      progress: 100,
+      status: "Aprobado",
+      risk: "Bajo",
+    }
+  ];
 
 export default function PanelPage() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -130,10 +130,10 @@ export default function PanelPage() {
             </a>
             
             <p className="text-[10px] text-outline mb-2 px-6 mt-6 font-bold tracking-widest uppercase">CONFIGURACIÓN</p>
-            <a href="#" className="flex items-center gap-3 px-6 py-3 border-l-2 border-transparent text-on-surface-variant hover:text-primary transition-all text-xs">
+            <Link href="/ajustes" className="flex items-center gap-3 px-6 py-3 border-l-2 border-transparent text-on-surface-variant hover:text-primary transition-all text-xs">
               <span className="material-symbols-outlined text-[18px] opacity-70">settings</span>
               Ajustes de Agentes
-            </a>
+            </Link>
             <a href="#" className="flex items-center gap-3 px-6 py-3 border-l-2 border-transparent text-on-surface-variant hover:text-primary transition-all text-xs">
               <span className="material-symbols-outlined text-[18px] opacity-70">shield_person</span>
               Reglas Indecopi
@@ -154,7 +154,7 @@ export default function PanelPage() {
         </aside>
 
         {/* Contenido Principal */}
-        <main className="flex-1 flex flex-col relative overflow-y-auto bg-surface">
+        <main className="flex-1 flex flex-col relative overflow-y-auto bg-surface custom-scrollbar">
           <div className="absolute inset-0 bunting-pattern pointer-events-none opacity-20 z-0"></div>
           
           {/* Header Superior del Main */}
@@ -223,20 +223,27 @@ export default function PanelPage() {
                   </div>
 
                   {/* Progreso y Acciones */}
-                  <div className="flex items-center gap-6 w-full md:w-auto">
+                  <div className="flex items-center gap-4 md:gap-6 w-full md:w-auto">
                     <div className="w-24 hidden md:block">
                       <div className="w-full bg-surface-container-high rounded-full h-1 overflow-hidden mt-1">
                         <div 
-                          className={`h-1 rounded-full ${item.progress === 100 ? 'bg-success' : 'bg-primary'}`}
+                          className={`h-1 rounded-full ${item.progress === 100 ? 'bg-success' : item.progress === 10 ? 'bg-error' : 'bg-primary'}`}
                           style={{ width: `${item.progress}%` }}
                         ></div>
                       </div>
                     </div>
                     
-                    <Link href={item.id === "CMP-NV-092" ? "/tracking" : "#"} className="text-primary font-bold text-xs flex items-center gap-1 hover:underline whitespace-nowrap">
-                      Detalles
-                      <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
-                    </Link>
+                    <div className="flex items-center gap-3">
+                      {item.status === 'Aprobado' && (
+                        <span className="bg-surface-container border border-outline-variant text-on-surface-variant px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider hidden md:block">
+                          Finalizado
+                        </span>
+                      )}
+                      <Link href={item.status === 'Aprobado' ? "/finished" : "/dashboard"} className="text-primary font-bold text-xs flex items-center gap-1 hover:underline whitespace-nowrap">
+                        Detalles
+                        <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
+                      </Link>
+                    </div>
                   </div>
                 </div>
               ))}

@@ -10,12 +10,13 @@ export default function DashboardPage() {
     setIsMounted(true);
   }, []);
 
+  // Métricas con puntajes "bajos/críticos" evaluando el borrador original
   const metrics = [
-    { label: "Piezas Analizadas", value: "3", icon: "inventory_2" },
-    { label: "Score de Calidad", value: "94/100", icon: "speed" },
-    { label: "Errores Detectados", value: "12", icon: "bug_report" },
-    { label: "Riesgo Indecopi", value: "Medio", icon: "balance" },
-    { label: "Nivel Tono Tigre", value: "Óptimo", icon: "local_fire_department" },
+    { label: "Índice de Claridad", value: 45, color: "#E23D28", icon: "format_paint", suffix: "%" }, // Red Mibanco
+    { label: "Alineación Tono Tigre", value: 30, color: "#E23D28", icon: "campaign", suffix: "%" }, // Red Mibanco
+    { label: "Fricción UX / CX", value: 75, color: "#FFB81C", icon: "touch_app", suffix: "%" }, // Amarillo Mibanco (Alto es malo)
+    { label: "Probabilidad Apertura", value: 40, color: "#FFB81C", icon: "visibility", suffix: "%" }, // Amarillo Mibanco
+    { label: "Riesgo Indecopi", value: 85, color: "#E23D28", icon: "gavel", suffix: "%" }, // Red Mibanco (Alto es malo)
   ];
 
   return (
@@ -28,6 +29,7 @@ export default function DashboardPage() {
         <div className="hidden md:flex items-center gap-8">
           <Link className="text-on-surface-variant hover:text-primary transition-colors py-1 text-sm font-bold" href="/panel">Panel</Link>
           <span className="text-primary font-bold border-b-2 border-primary py-1 text-sm">Dashboard CX</span>
+          <Link className="text-on-surface-variant hover:text-primary transition-colors py-1 text-sm font-bold" href="/tracking">Rastreador</Link>
         </div>
         <div className="flex items-center gap-4 text-primary">
           <span className="material-symbols-outlined cursor-pointer hover:opacity-70 transition-all">account_circle</span>
@@ -41,82 +43,92 @@ export default function DashboardPage() {
           {/* Header Minimalista */}
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b border-outline-variant pb-6">
             <div>
-              <p className="text-sm font-bold text-outline uppercase tracking-wider mb-1">Campaña CMP-NV-092</p>
+              <p className="text-sm font-bold text-error uppercase tracking-wider mb-1 flex items-center gap-1">
+                <span className="material-symbols-outlined text-[16px]">warning</span> Borrador Crítico Detectado
+              </p>
               <h1 className="font-headline-xl text-3xl md:text-4xl text-on-surface font-black">
-                Resultados del Análisis
+                Diagnóstico Pre-Optimización
               </h1>
             </div>
             <div className="flex gap-3">
               <button className="border border-outline-variant text-on-surface-variant hover:bg-surface-container font-bold text-sm py-2 px-6 rounded-full transition-all flex items-center gap-2">
                 <span className="material-symbols-outlined text-[18px]">download</span>
-                Reporte PDF
+                Exportar Reporte
               </button>
-              <Link href="/tracking" className="bg-primary hover:opacity-90 text-on-primary font-bold text-sm py-2 px-6 rounded-full transition-all flex items-center gap-2 mibanco-shadow active:scale-95">
-                Generar Código Único
-                <span className="material-symbols-outlined text-[18px]">qr_code</span>
-              </Link>
             </div>
           </div>
 
-          {/* Sección Superior: Gráfico de Pastel y 5 Métricas Clave */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            
-            {/* Pie Chart (Minimalista) */}
-            <div className="lg:col-span-4 bg-surface-container-lowest border border-outline-variant rounded-2xl p-8 flex flex-col items-center justify-center">
-              <h3 className="font-bold text-sm text-on-surface-variant uppercase tracking-wide mb-6 w-full text-center">Estado General</h3>
-              
-              <div 
-                className="w-40 h-40 rounded-full mb-8 relative flex items-center justify-center shadow-inner" 
-                style={{ background: "conic-gradient(#00A159 0% 65%, #FFB81C 65% 90%, #E23D28 90% 100%)" }}
-              >
-                {/* Hueco central para hacer un "Donut Chart" minimalista */}
-                <div className="w-24 h-24 bg-surface-container-lowest rounded-full absolute flex flex-col items-center justify-center">
-                  <span className="text-2xl font-black text-on-surface">65%</span>
-                  <span className="text-[9px] text-outline font-bold">ÓPTIMAS</span>
-                </div>
-              </div>
-              
-              <div className="w-full flex flex-col gap-3 text-xs font-bold text-on-surface-variant">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="w-3 h-3 rounded-full" style={{ backgroundColor: '#00A159' }}></span> Aprobado
-                  </div>
-                  <span>65%</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="w-3 h-3 rounded-full" style={{ backgroundColor: '#FFB81C' }}></span> Observado
-                  </div>
-                  <span>25%</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="w-3 h-3 rounded-full" style={{ backgroundColor: '#E23D28' }}></span> Crítico
-                  </div>
-                  <span>10%</span>
-                </div>
-              </div>
-            </div>
+          {/* Barra de Metadatos del Análisis */}
+          <div className="flex flex-wrap items-center justify-between gap-4 md:gap-8 bg-surface-container-lowest border border-outline-variant rounded-xl p-5 shadow-sm -mt-4">
+             <div className="flex flex-col">
+                <span className="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider mb-1">Código de Pieza</span>
+                <span className="font-mono font-bold text-primary bg-primary/10 px-2 py-0.5 rounded text-sm w-max">WSP-COB-041</span>
+             </div>
+             <div className="w-px h-8 bg-outline-variant hidden md:block"></div>
+             
+             <div className="flex flex-col">
+                <span className="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider mb-1">Campaña</span>
+                <span className="font-bold text-on-surface text-sm flex items-center gap-1"><span className="material-symbols-outlined text-[16px] text-outline">campaign</span> Recordatorio de Pago</span>
+             </div>
+             <div className="w-px h-8 bg-outline-variant hidden md:block"></div>
+             
+             <div className="flex flex-col">
+                <span className="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider mb-1">Piezas Analizadas</span>
+                <span className="font-bold text-on-surface text-sm flex items-center gap-1"><span className="material-symbols-outlined text-[16px] text-outline">file_copy</span> 1 Archivo</span>
+             </div>
+             <div className="w-px h-8 bg-outline-variant hidden md:block"></div>
 
-            {/* 5 Métricas Clave */}
-            <div className="lg:col-span-8 grid grid-cols-2 md:grid-cols-3 gap-4">
-              {metrics.map((m, idx) => (
-                <div key={idx} className="bg-surface-container-lowest border border-outline-variant rounded-2xl p-6 flex flex-col justify-between hover:border-primary transition-colors group">
-                  <span className="material-symbols-outlined text-outline group-hover:text-primary transition-colors mb-4">{m.icon}</span>
-                  <div className="flex flex-col">
-                    <span className="text-3xl font-black text-on-surface mb-1">{m.value}</span>
-                    <span className="text-[11px] text-on-surface-variant font-bold uppercase tracking-wider">{m.label}</span>
-                  </div>
-                </div>
-              ))}
-              
-              {/* Sexta caja "Dummy" para cuadrar el grid de 3 columnas (opcional, o un resumen rápido) */}
-              <div className="bg-primary-container/20 border border-primary/20 rounded-2xl p-6 flex flex-col justify-center items-center text-center">
-                <span className="material-symbols-outlined text-primary text-3xl mb-2">auto_awesome</span>
-                <span className="text-sm font-bold text-primary">Análisis Completado en 4.2s</span>
-              </div>
-            </div>
+             <div className="flex flex-col">
+                <span className="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider mb-1">Tiempo de SLA IA</span>
+                <span className="font-bold text-success text-sm flex items-center gap-1"><span className="material-symbols-outlined text-[16px]">timer</span> 2.4 Segundos</span>
+             </div>
+             <div className="w-px h-8 bg-outline-variant hidden md:block"></div>
 
+             <div className="flex flex-col">
+                <span className="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider mb-1">Fecha de Validación</span>
+                <span className="font-bold text-on-surface text-sm flex items-center gap-1"><span className="material-symbols-outlined text-[16px] text-outline">calendar_today</span> 26/06/2026</span>
+             </div>
+          </div>
+
+          {/* Sección Superior: 5 Gráficos Circulares + Resumen */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            {metrics.map((m, idx) => {
+              const radius = 36;
+              const circumference = 2 * Math.PI * radius;
+              // Animación de llenado condicional al estado isMounted
+              const strokeDashoffset = isMounted ? circumference - (m.value / 100) * circumference : circumference;
+
+              return (
+                <div key={idx} className="bg-surface-container-lowest border border-outline-variant rounded-2xl p-4 flex flex-col items-center justify-between shadow-sm relative group overflow-hidden">
+                  <div className="absolute top-0 left-0 w-full h-1 opacity-80" style={{ backgroundColor: m.color }}></div>
+                  
+                  <div className="relative flex items-center justify-center my-3">
+                    <svg className="transform -rotate-90 w-24 h-24">
+                      {/* Fondo del anillo */}
+                      <circle cx="48" cy="48" r={radius} stroke="currentColor" strokeWidth="6" fill="transparent" className="text-surface-container-high/30" />
+                      {/* Anillo de progreso */}
+                      <circle cx="48" cy="48" r={radius} stroke={m.color} strokeWidth="6" fill="transparent" strokeDasharray={circumference} strokeDashoffset={strokeDashoffset} strokeLinecap="round" className="transition-all duration-[1500ms] ease-out" />
+                    </svg>
+                    <div className="absolute flex flex-col items-center justify-center">
+                      <span className="material-symbols-outlined text-[16px] mb-0.5 opacity-80" style={{ color: m.color }}>{m.icon}</span>
+                      <span className="text-xl font-black text-on-surface leading-none">{m.value}{m.suffix}</span>
+                    </div>
+                  </div>
+
+                  <span className="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider text-center h-8 flex items-center">
+                    {m.label}
+                  </span>
+                </div>
+              );
+            })}
+
+            {/* Sexta caja: Resumen de Alertas */}
+            <div className="bg-error/5 border border-error/20 rounded-2xl p-4 flex flex-col justify-center items-center text-center shadow-sm relative overflow-hidden">
+               <div className="absolute top-0 left-0 w-full h-1 bg-error opacity-80"></div>
+               <span className="material-symbols-outlined text-error text-3xl mb-1">error</span>
+               <span className="text-4xl font-black text-error mb-1">5</span>
+               <span className="text-[10px] font-bold text-error uppercase tracking-wider leading-tight">Alertas Críticas<br/>Detectadas</span>
+            </div>
           </div>
 
           {/* Sección Inferior: 3 Columnas de Análisis */}
@@ -240,12 +252,16 @@ export default function DashboardPage() {
                     </div>
                   </div>
 
-                  {/* Botón de Aprobación Real del Dashboard */}
-                  <div className="mt-6 z-10">
+                  {/* Botones de Acción Real del Dashboard */}
+                  <div className="mt-6 z-10 flex flex-col gap-3">
                     <Link href="/tracking" className="w-full bg-[#00A159] hover:bg-[#00894B] text-white font-bold text-sm py-4 px-4 rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg hover:-translate-y-1">
                       Aprobar y Enviar a WhatsApp
                       <span className="material-symbols-outlined text-[20px]">send</span>
                     </Link>
+                    <button className="w-full bg-surface border border-outline-variant text-on-surface-variant hover:bg-surface-container hover:text-primary font-bold text-xs py-3 px-4 rounded-xl transition-all flex items-center justify-center gap-2 shadow-sm">
+                      <span className="material-symbols-outlined text-[18px]">forward_to_inbox</span>
+                      Responder Solicitud por Email
+                    </button>
                   </div>
                 </div>
 

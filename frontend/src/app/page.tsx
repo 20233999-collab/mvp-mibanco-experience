@@ -2,9 +2,12 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [isLoginView, setIsLoginView] = useState(true);
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const bunting = document.querySelector('.bunting-pattern') as HTMLElement;
@@ -118,10 +121,23 @@ export default function Home() {
                       <input className="w-full pl-12 pr-4 py-3 rounded-lg border border-outline-variant focus:border-primary focus:ring-0 text-body-md transition-all outline-none" placeholder="••••••••" type="password" />
                     </div>
                   </div>
-                  <Link href="/ingesta" className="bg-secondary-container hover:opacity-90 text-on-secondary-fixed font-bold text-sm py-4 px-8 rounded-full transition-all flex items-center justify-center gap-2 mibanco-shadow active:scale-95 mt-2">
-                    Ingresar al Módulo
-                    <span className="material-symbols-outlined">arrow_forward</span>
-                  </Link>
+                  <button 
+                    onClick={() => { setIsAuthenticating(true); setTimeout(() => router.push('/panel'), 800); }}
+                    disabled={isAuthenticating}
+                    className="bg-secondary-container hover:opacity-90 text-on-secondary-fixed font-bold text-sm py-4 px-8 rounded-full transition-all flex items-center justify-center gap-2 mibanco-shadow active:scale-95 mt-2 disabled:opacity-50"
+                  >
+                    {isAuthenticating ? (
+                      <>
+                        <span className="material-symbols-outlined animate-spin" style={{ animationDuration: '1s' }}>progress_activity</span>
+                        Autenticando...
+                      </>
+                    ) : (
+                      <>
+                        Ingresar al Módulo
+                        <span className="material-symbols-outlined">arrow_forward</span>
+                      </>
+                    )}
+                  </button>
                   <div className="flex items-center gap-2 justify-center py-2 opacity-60">
                     <span className="material-symbols-outlined text-sm">verified_user</span>
                     <span className="text-sm font-label-bold font-bold">Acceso seguro con cifrado bancario</span>

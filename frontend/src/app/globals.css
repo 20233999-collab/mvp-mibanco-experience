@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-surface: #f9f9fb;
+  --color-surface-dim: #d9dadc;
+  --color-surface-container-low: #f3f3f6;
+  --color-surface-container-lowest: #ffffff;
+  --color-primary: #006b33;
+  --color-primary-container: #008743;
+  --color-secondary: #725c00;
+  --color-secondary-container: #fed000;
+  --color-on-primary: #ffffff;
+  --color-on-primary-container: #f6fff3;
+  --color-on-secondary-fixed: #231b00;
+  --color-on-surface: #191c1e;
+  --color-on-surface-variant: #3e4a3f;
+  --color-outline: #6e7a6e;
+  --color-outline-variant: #bdcabb;
+
+  --spacing-margin-mobile: 1rem;
+  --spacing-margin-desktop: 2.5rem;
+  --spacing-stack-sm: 0.5rem;
+  --spacing-gutter: 1.5rem;
+  --spacing-stack-md: 1rem;
+  --spacing-stack-lg: 2rem;
+
+  --font-label-bold: "Quicksand", sans-serif;
+  --font-body-lg: "Quicksand", sans-serif;
+  --font-body-md: "Quicksand", sans-serif;
+  --font-headline-xl: "Nunito", sans-serif;
+  --font-headline-md: "Nunito", sans-serif;
+}
+
+body {
+  background-color: var(--color-surface);
+  color: var(--color-on-surface);
+  font-family: 'Quicksand', sans-serif;
+}
+
+.tilted-header {
+  clip-path: polygon(0 0, 100% 0, 100% 85%, 0% 100%);
+}
+
+.mibanco-shadow {
+  box-shadow: 0 4px 20px -2px rgba(0, 107, 51, 0.08);
+}
+
+.bunting-pattern {
+  background-image: radial-gradient(#00964B 1px, transparent 0);
+  background-size: 20px 20px;
+  opacity: 0.05;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  vertical-align: middle;
+}
